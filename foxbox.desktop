@@ -1,0 +1,17 @@
+[Desktop Entry]
+Version=1.0
+Name=Foxbox
+GenericName=Web Browser (Dev)
+Comment=Ephemeral Firefox with trusted localhost certificates
+Exec=foxbox %u
+Terminal=false
+Type=Application
+Categories=Development;WebBrowser;
+StartupWMClass=foxbox
+MimeType=x-scheme-handler/https;x-scheme-handler/http;
+Icon=foxbox
+Actions=dev-edit;
+
+[Desktop Action dev-edit]
+Name=Edit master profile
+Exec=foxbox --edit

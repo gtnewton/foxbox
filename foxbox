@@ -1,0 +1,50 @@
+#!/bin/bash
+set -euo pipefail
+
+MASTER_PROFILE="${HOME}/.mozilla/dev"
+
+if [[ ! -d "$MASTER_PROFILE" ]]; then
+    echo "foxbox: master profile not found at $MASTER_PROFILE" >&2
+    echo "        Run install.sh first." >&2
+    exit 1
+fi
+
+# ── Edit mode ────────────────────────────────────────────────────────────────
+# Open the master profile directly so its baseline can be changed deliberately
+# (add an extension, adjust devtools layout, repin a site). Everything here
+# persists to every future foxbox session, so this is the one sanctioned way to
+# mutate the master — unlike an accidental direct launch, which the dirty-check
+# below is meant to catch.
+if [[ "${1:-}" == "--edit" ]]; then
+    echo "Opening master profile for editing: $MASTER_PROFILE"
+    echo "Changes here become the new baseline for every future foxbox session."
+    firefox --name foxbox --class foxbox --profile "$MASTER_PROFILE" --no-remote >/dev/null 2>&1
+    # Re-stamp the baseline so this intentional edit is not later flagged as drift.
+    stat -c %Y "${MASTER_PROFILE}/prefs.js" 2>/dev/null > "${MASTER_PROFILE}/.foxbox-baseline" || true
+    echo "Baseline updated."
+    exit 0
+fi
+
+# Warn if the master profile looks dirty (prefs.js modified after initial setup)
+if [[ -f "${MASTER_PROFILE}/.foxbox-baseline" ]]; then
+    BASELINE_TIME=$(cat "${MASTER_PROFILE}/.foxbox-baseline")
+    PREFS_TIME=$(stat -c %Y "${MASTER_PROFILE}/prefs.js" 2>/dev/null || echo 0)
+    if [[ "$PREFS_TIME" -gt "$BASELINE_TIME" ]]; then
+        echo "WARNING: Master profile at $MASTER_PROFILE may have been modified." >&2
+        echo "         Opening it directly with Firefox writes cache, cookies, and history" >&2
+        echo "         back to the master, contaminating every future foxbox session." >&2
+        echo "         If you did this, re-run install.sh to reset the baseline." >&2
+        echo "" >&2
+    fi
+fi
+
+URL=${1:-""}
+
+TMP_PROFILE=$(mktemp -d /dev/shm/ff-tmp-XXXXXX)
+
+cp -a "${MASTER_PROFILE}/." "$TMP_PROFILE/"
+
+(
+    firefox --name foxbox --class foxbox --profile "$TMP_PROFILE" --no-remote ${URL:+"$URL"} > /dev/null 2>&1
+    rm -rf "$TMP_PROFILE"
+) &
