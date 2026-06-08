@@ -122,6 +122,12 @@ if [[ -f "${BUNDLE_DIR}/extensions.conf" ]]; then
         xpi="${PROFILE_DIR}/extensions/${guid}.xpi"
         if ! curl -sL --fail "$url" -o "$xpi"; then
             echo "  WARNING: Download failed for ${slug} — skipping."
+            rm -f "$xpi"
+            continue
+        fi
+        if [[ ! -s "$xpi" ]]; then
+            echo "  WARNING: Downloaded file is empty for ${slug} — skipping."
+            rm -f "$xpi"
             continue
         fi
         # Verify integrity against the AMO-published hash before trusting the XPI.
@@ -133,6 +139,26 @@ if [[ -f "${BUNDLE_DIR}/extensions.conf" ]]; then
             fi
         else
             echo "  WARNING: Cannot verify checksum for ${slug} (unexpected hash format or sha256sum missing)."
+        fi
+        # Verify the XPI is a valid archive and its internal extension ID matches
+        # the GUID in extensions.conf. Firefox uses the XPI filename as the
+        # extension ID for sideloading, so a mismatch silently prevents loading.
+        actual_id=$(python3 - "$xpi" <<'PY' 2>/dev/null
+import zipfile, json, sys
+try:
+    with zipfile.ZipFile(sys.argv[1]) as z:
+        m = json.loads(z.read('manifest.json'))
+        gecko = (m.get('browser_specific_settings') or m.get('applications') or {}).get('gecko', {})
+        print(gecko.get('id', ''))
+except Exception:
+    sys.exit(1)
+PY
+        ) || { echo "  WARNING: ${slug} XPI is not a valid archive — removing and skipping."; rm -f "$xpi"; continue; }
+        if [[ -n "$actual_id" && "$actual_id" != "$guid" ]]; then
+            echo "  WARNING: Extension ID mismatch for ${slug}: XPI contains '${actual_id}', expected '${guid}'."
+            echo "           Verify the GUID in extensions.conf (see format notes at the top of that file)."
+            rm -f "$xpi"
+            continue
         fi
         echo "  OK: ${slug}"
     done < "${BUNDLE_DIR}/extensions.conf"
