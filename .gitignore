@@ -12,3 +12,6 @@ Thumbs.db
 # Backups
 *.bak
 *.orig
+
+# Build artifacts
+*.zip
