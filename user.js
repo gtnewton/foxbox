@@ -65,6 +65,11 @@ user_pref("doh-rollout.mode",         2);
 user_pref("doh-rollout.self-enabled", true);
 user_pref("doh-rollout.uri",          "https://private.canadianshield.cira.ca/dns-query");
 
+// -- Chrome theme ------------------------------------------------------------
+// Load <profile>/chrome/userChrome.css so foxbox sessions are visually distinct
+// from a normal Firefox. install.sh stages the stylesheet and its SVG assets.
+user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
+
 // -- UI ----------------------------------------------------------------------
 user_pref("browser.search.region",                "CA");
 user_pref("browser.theme.toolbar-theme",          0);

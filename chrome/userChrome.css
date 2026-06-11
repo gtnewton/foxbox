@@ -1,0 +1,81 @@
+/* foxbox chrome theme — userChrome.css
+ *
+ * Makes foxbox sessions visually unmistakable against a normal Firefox: a dark
+ * frame, the foxbox circuit pattern across the toolbox, a fox mark top-right,
+ * and an orange accent line under the address bar.
+ *
+ * Loaded because user.js sets toolkit.legacyUserProfileCustomizations.stylesheets
+ * = true. Lives in <profile>/chrome/ alongside the two SVGs it references, so the
+ * url() paths below are relative to this file. The master profile is cloned on
+ * every launch, so this applies instantly to each ephemeral session at no
+ * per-launch cost.
+ *
+ * Targets Firefox 151 chrome. Chrome selectors and CSS variables drift between
+ * releases — if the theme looks broken after a Firefox update, the variable
+ * block and #navigator-toolbox rules below are where to look first.
+ *
+ * Tunable knobs are flagged with  -- tune --  in the comments.
+ */
+
+/* ── Lightweight-theme variables ──────────────────────────────────────────────
+ * Firefox's own chrome CSS consumes these, so setting them here recolours the
+ * toolbars, tabs, icons, and address bar the same way a WebExtension theme would
+ * — without needing a signed XPI. Translucent toolbar/tab backgrounds let the
+ * toolbox pattern (set further down) show through. */
+:root {
+  --lwt-accent-color:        #1a1a1a !important;  /* frame / window background  */
+  --lwt-text-color:          #ffffff !important;
+  --toolbar-bgcolor:         rgba(51, 51, 51, 0.45) !important;  /* nav-bar      */
+  --toolbar-color:           #ffffff !important;
+  --toolbarbutton-icon-fill: #ffffff !important;
+
+  --tab-selected-bgcolor:    rgba(51, 51, 51, 0.85) !important;
+  --tab-selected-textcolor:  #ffffff !important;
+  --lwt-tab-text:            #ffffff !important;
+
+  /* Address bar — keep it solid and legible against the dark frame. */
+  --toolbar-field-background-color:        #2a2a2a !important;
+  --toolbar-field-color:                   #ffffff !important;
+  --toolbar-field-border-color:            #444444 !important;
+  --toolbar-field-focus-background-color:  #1f1f1f !important;
+  --toolbar-field-focus-color:             #ffffff !important;
+}
+
+/* ── Toolbox: dark frame + circuit pattern + fox mark ─────────────────────────
+ * #navigator-toolbox is the container holding the tab strip and the nav bar.
+ * Painting here puts the pattern and logo behind both, which the translucent
+ * toolbars above reveal.
+ *
+ * Two stacked background layers (first listed paints on top):
+ *   1. foxbox.svg — the fox mark, pinned top-right of the tab strip.
+ *   2. bg.svg     — the circuit pattern, tiled across the whole toolbox.
+ */
+#navigator-toolbox {
+  background-color: #1a1a1a !important;
+  background-image:
+    url("foxbox.svg"),
+    url("bg.svg") !important;
+  background-position:
+    right 14px top 4px,   /* fox mark      -- tune -- nudge into the tab strip */
+    left top !important;  /* circuit tile                                      */
+  background-repeat:
+    no-repeat,
+    repeat !important;
+  background-size:
+    auto 24px,            /* fox mark height  -- tune -- match tab strip height */
+    100px 100px !important;
+}
+
+/* Let the tab strip be fully transparent so the pattern and fox mark read
+ * cleanly behind it; the nav bar keeps its translucent dark wash from the
+ * variable block above. */
+#TabsToolbar {
+  background-color: transparent !important;
+}
+
+/* ── foxbox accent line ───────────────────────────────────────────────────────
+ * An orange rule under the address bar — the single clearest "this is foxbox"
+ * signal at a glance. */
+#nav-bar {
+  border-bottom: 2px solid #e66000 !important;  /* -- tune -- accent colour */
+}

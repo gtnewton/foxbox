@@ -106,6 +106,22 @@ cp "${BUNDLE_DIR}/user.js" "${PROFILE_DIR}/user.js"
 echo "user_pref(\"intl.locale.requested\", \"${LOCALE}\");" >> "${PROFILE_DIR}/user.js"
 echo "Baseline preferences installed (locale: ${LOCALE})."
 
+# ── Chrome theme ─────────────────────────────────────────────────────────────
+# Stage userChrome.css and its SVG assets into <profile>/chrome/. The theme is
+# applied via toolkit.legacyUserProfileCustomizations.stylesheets (set in
+# user.js); because foxbox clones the master profile on every launch, the chrome/
+# dir rides along and every ephemeral session is themed with no per-launch work.
+
+if [[ -f "${BUNDLE_DIR}/chrome/userChrome.css" ]]; then
+    mkdir -p "${PROFILE_DIR}/chrome"
+    cp "${BUNDLE_DIR}/chrome/userChrome.css" "${PROFILE_DIR}/chrome/userChrome.css"
+    # userChrome.css references these by relative path.
+    for asset in foxbox.svg bg.svg; do
+        [[ -f "${BUNDLE_DIR}/chrome/${asset}" ]] && cp "${BUNDLE_DIR}/chrome/${asset}" "${PROFILE_DIR}/chrome/${asset}"
+    done
+    echo "Chrome theme installed to ${PROFILE_DIR}/chrome/."
+fi
+
 # ── Extensions ───────────────────────────────────────────────────────────────
 
 if [[ -f "${BUNDLE_DIR}/extensions.conf" ]]; then
