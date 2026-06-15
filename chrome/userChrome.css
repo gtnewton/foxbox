@@ -32,12 +32,14 @@
 /* The master container holding both the tab strip and the navigation bar.
  * Applies the circuit pattern and the top-right fox logo behind the UI. */
 #navigator-toolbox {
-  background-color: #1a1a1a !important;
+  backdrop-filter: blur(16px) !important;
+  border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+  background-color: rgba(0,0,0,.25) !important;
   background-image:
     url("foxbox.svg"),
     url("bg.svg") !important;
   background-position:
-    right 210px top -32px, 
+    right 188px top -32px, 
     left top !important;  
   background-repeat:
     no-repeat,
@@ -52,9 +54,35 @@
   background-color: transparent !important;
 }
 
+/* min, max, close buttons */
+.titlebar-button > .toolbarbutton-icon {
+    border-radius: 999px !important;
+
+    border: 1px solid rgba(255,255,255,0.18) !important;
+
+    box-shadow:
+        inset 0 1px 1px rgba(255,255,255,0.35),
+        inset 0 -1px 2px rgba(0,0,0,0.18),
+        0 1px 4px rgba(0,0,0,0.25) !important;
+
+    backdrop-filter: blur(8px) saturate(140%) !important;
+    
+    padding: 6px !important;
+}
+
+/* Hover */
+.titlebar-button:hover > .toolbarbutton-icon:hover {
+    box-shadow:
+        0 -2px 4px rgba(255,255,255,0.65),
+        0 3px 6px rgba(0,0,0,0.35),
+        0 8px 16px rgba(0,0,0,0.28) !important;
+}
+
+
 /* The row containing the URL bar and navigation buttons. 
  * Strips out the native horizontal divider line. */
 #nav-bar {
+  background: transparent !important;
   border-top: none !important;                  
   box-shadow: none !important;                  
 }

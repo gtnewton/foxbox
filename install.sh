@@ -115,8 +115,9 @@ echo "Baseline preferences installed (locale: ${LOCALE})."
 if [[ -f "${BUNDLE_DIR}/chrome/userChrome.css" ]]; then
     mkdir -p "${PROFILE_DIR}/chrome"
     cp "${BUNDLE_DIR}/chrome/userChrome.css" "${PROFILE_DIR}/chrome/userChrome.css"
-    # userChrome.css references these by relative path.
-    for asset in foxbox.svg bg.svg; do
+    [[ -f "${BUNDLE_DIR}/chrome/userContent.css" ]] && cp "${BUNDLE_DIR}/chrome/userContent.css" "${PROFILE_DIR}/chrome/userContent.css"
+    # CSS files reference these assets by relative path.
+    for asset in foxbox.svg bg.svg foxbox_bg.jpg; do
         [[ -f "${BUNDLE_DIR}/chrome/${asset}" ]] && cp "${BUNDLE_DIR}/chrome/${asset}" "${PROFILE_DIR}/chrome/${asset}"
     done
     echo "Chrome theme installed to ${PROFILE_DIR}/chrome/."
