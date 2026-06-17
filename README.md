@@ -53,7 +53,7 @@ cd foxbox
 The installer will:
 
 1. Check that all required tools are present
-2. Prompt for the Firefox UI locale (default: `en-CA` — press Enter to accept)
+2. Prompt for the Firefox UI locale (defaults to your system locale, falling back to `en-CA` — press Enter to accept)
 3. Install the mkcert CA into your system trust store
 4. Create a fresh Firefox profile at `~/.mozilla/dev`
 5. Inject the CA into that profile so locally-signed certificates are trusted

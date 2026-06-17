@@ -46,7 +46,20 @@ fi
 
 # ── Locale ───────────────────────────────────────────────────────────────────
 
-DEFAULT_LOCALE="en-CA"
+# Derive a BCP-47 locale (e.g. en-CA) from the system locale environment for use
+# as the Firefox UI default. POSIX locales look like en_CA.UTF-8; Firefox wants
+# en-CA. Falls back to en-CA when unset or C/POSIX.
+detect_locale() {
+    local raw="${LC_ALL:-${LC_MESSAGES:-${LANG:-}}}"
+    raw="${raw%%.*}"   # strip encoding suffix (.UTF-8)
+    raw="${raw%%@*}"   # strip @modifier (e.g. @euro)
+    case "$raw" in
+        ""|C|POSIX) echo "en-CA" ;;
+        *)          echo "${raw//_/-}" ;;
+    esac
+}
+
+DEFAULT_LOCALE="$(detect_locale)"
 read -rp "Firefox UI locale [${DEFAULT_LOCALE}]: " locale_input
 LOCALE="${locale_input:-${DEFAULT_LOCALE}}"
 echo "Locale set to: ${LOCALE}"
