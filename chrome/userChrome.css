@@ -19,6 +19,8 @@
   /* URL address bar colours */
   --toolbar-field-background-color:        rgba(0,0,0,0.25) !important;
   --toolbar-field-color:                   #ffffff !important;
+  /* NOTE: likely overridden by #urlbar-background's explicit border below;
+   * confirm in the Browser Toolbox before relying on or removing this. */
   --toolbar-field-border-color:            #444444 !important;
   --toolbar-field-focus-background-color:  rgba(0,0,0,0.5) !important;
   --toolbar-field-focus-color:             #ffffff !important;
@@ -65,13 +67,15 @@
         inset 0 -1px 2px rgba(0,0,0,0.18),
         0 1px 4px rgba(0,0,0,0.25) !important;
 
+    /* NOTE: nested inside #navigator-toolbox's own backdrop-filter; may be a
+     * visual no-op. Confirm live before keeping. */
     backdrop-filter: blur(8px) saturate(140%) !important;
-    
+
     padding: 6px !important;
 }
 
 /* Hover */
-.titlebar-button:hover > .toolbarbutton-icon:hover {
+.titlebar-button:hover > .toolbarbutton-icon {
     box-shadow:
         0 -2px 4px rgba(255,255,255,0.65),
         0 3px 6px rgba(0,0,0,0.35),
@@ -105,9 +109,10 @@
     background-color: rgba(105,60,185, 0.5) !important; 
 }
 
-/* Removes the native outline when selecting tabs via keyboard navigation */
+/* Purple focus ring for keyboard tab navigation — keep the affordance visible */
 .tabbrowser-tab:focus-visible .tab-background {
-    outline: none !important;
+    outline: 2px solid var(--focus-outline-color) !important;
+    outline-offset: -2px !important;
 }
 
 /* ── Address Bar (URL Bar) UI ───────────────────────────────────────────── */

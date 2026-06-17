@@ -14,7 +14,7 @@ url("about:newtab") {
   body {
     margin: 0 !important;
     padding: 0 !important;
-    width: 100vw !important;
+    width: 100% !important;
     min-height: 100vh !important;
 
     background:
@@ -84,8 +84,9 @@ url("about:newtab") {
 
   /* text */
   .top-site-outer .title,
-  .weather,
   .section-title,
+  /* NOTE: .card is likely legacy (modern newtab uses .ds-card, hidden below);
+   * confirm in the Browser Toolbox before removing. */
   .card * {
     color: white !important;
   }
@@ -93,9 +94,6 @@ url("about:newtab") {
   /* hover */
   .top-site-outer:hover .tile {
     background: rgba(105,60,185,0.22) !important;
-
-    border-color:
-      rgba(140,100,255,0.35) !important;
   }
 
   /* ==========================================================================
@@ -108,8 +106,7 @@ url("about:newtab") {
   display: none !important;
 }
 /* --- Top shortcuts / pinned sites ------------------------------------- */
-.sponsored,
-.top-site-outer.sponsored {
+.sponsored {
   display: none !important;
 }
 
