@@ -82,23 +82,6 @@ url("about:newtab") {
       0 2px 12px rgba(0,0,0,0.5);
   }
 
-  /* cards */
-  /* .top-site-outer .tile,
-  .top-site-outer .icon-wrapper,
-  .search-handoff-button,
-  .weather,
-  .card,
-  .ds-card-grid .ds-card {
-    background: rgba(0,0,0,0.28) !important;
-
-    backdrop-filter: blur(10px) saturate(140%) !important;
-
-    border: 1px solid rgba(255,255,255,0.08) !important;
-
-    box-shadow:
-      0 4px 18px rgba(0,0,0,0.25) !important;
-  } */
-
   /* text */
   .top-site-outer .title,
   .weather,
@@ -116,8 +99,7 @@ url("about:newtab") {
   }
 
   /* ==========================================================================
-   OPTIONAL COMPONENT HIDES
-   Uncomment individually to experiment
+   COMPONENT HIDES
    ========================================================================== */
 /* --- Search box -------------------------------------------------------- */
 .search-inner-wrapper,
@@ -166,76 +148,10 @@ url("about:newtab") {
   display: none !important;
 }
 
-
-
-/* --- Recent activity / highlights ------------------------------------- */
-
-/*
-.home-section.highlights,
-.section-list {
-  display: none !important;
-}
-*/
-
-
 /* --- Customize button -------------------------------------------------- */
-
 .personalizeButtonWrapper,
 .personalize-button,
 .customize-menu {
   display: none !important;
 }
-
-
-
-/* --- Firefox snippets / promos ---------------------------------------- */
-
-/*
-.snippets-container,
-.promo,
-.simpleBelowSearchSnippet {
-  display: none !important;
-}
-*/
-
-
-/* --- Entire sections --------------------------------------------------- */
-
-/*
-.home-section {
-  display: none !important;
-}
-*/
-
-
-/* --- Section headers --------------------------------------------------- */
-
-/*
-.section-title-container,
-.section-title {
-  display: none !important;
-}
-*/
-
-
-/* --- Cards only (keep layout spacing) --------------------------------- */
-
-/*
-.card,
-.ds-card,
-.top-site-outer {
-  opacity: 0 !important;
-}
-*/
-
-
-/* --- Hide everything except background -------------------------------- */
-
-/*
-main,
-.outer-wrapper,
-.activity-stream {
-  opacity: 0 !important;
-}
-*/
 }

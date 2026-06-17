@@ -94,7 +94,7 @@ Open `extensions.conf` in this directory. Each line is one extension:
 
 ```
 web-developer                  {c45c406e-ab73-11d8-be73-000a95be3b12}
-bitwarden-password-manager     {446900e4-71c2-419f-a6a7-df9c091e268b}
+# bitwarden-password-manager     {446900e4-71c2-419f-a6a7-df9c091e268b}
 ```
 
 **To remove an extension:** comment out or delete its line, then re-run `install.sh`.
