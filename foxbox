@@ -40,7 +40,14 @@ fi
 
 URL=${1:-""}
 
-TMP_PROFILE=$(mktemp -d /dev/shm/ff-tmp-XXXXXX)
+# Prefer RAM-backed /dev/shm: the clone is fast and ephemeral profile data never
+# touches disk. Fall back to the normal temp dir where /dev/shm is missing or
+# not writable (some containers, minimal systems).
+if [[ -d /dev/shm && -w /dev/shm ]]; then
+    TMP_PROFILE=$(mktemp -d /dev/shm/ff-tmp-XXXXXX)
+else
+    TMP_PROFILE=$(mktemp -d "${TMPDIR:-/tmp}/ff-tmp-XXXXXX")
+fi
 
 cp -a "${MASTER_PROFILE}/." "$TMP_PROFILE/"
 

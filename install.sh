@@ -37,6 +37,13 @@ if ! command -v curl &>/dev/null; then
     exit 1
 fi
 
+if ! command -v python3 &>/dev/null; then
+    echo "ERROR: python3 is required but not found."
+    echo "       Used to parse AMO metadata and verify downloaded extensions."
+    echo "Install: sudo apt install python3"
+    exit 1
+fi
+
 # ── Locale ───────────────────────────────────────────────────────────────────
 
 DEFAULT_LOCALE="en-CA"
@@ -116,14 +123,22 @@ if [[ -f "${BUNDLE_DIR}/chrome/userChrome.css" ]]; then
     mkdir -p "${PROFILE_DIR}/chrome"
     cp "${BUNDLE_DIR}/chrome/userChrome.css" "${PROFILE_DIR}/chrome/userChrome.css"
     [[ -f "${BUNDLE_DIR}/chrome/userContent.css" ]] && cp "${BUNDLE_DIR}/chrome/userContent.css" "${PROFILE_DIR}/chrome/userContent.css"
-    # CSS files reference these assets by relative path.
-    for asset in foxbox.svg bg.svg foxbox_bg.jpg; do
+    # CSS files reference these assets by relative path, so they must sit beside
+    # the stylesheets in the profile's chrome/ dir.
+    for asset in bg.svg foxbox_bg.jpg; do
         [[ -f "${BUNDLE_DIR}/chrome/${asset}" ]] && cp "${BUNDLE_DIR}/chrome/${asset}" "${PROFILE_DIR}/chrome/${asset}"
     done
+    # foxbox.svg is shared with the app icon and lives at the repo root; stage it
+    # into chrome/ as the theme's fox mark.
+    [[ -f "${BUNDLE_DIR}/foxbox.svg" ]] && cp "${BUNDLE_DIR}/foxbox.svg" "${PROFILE_DIR}/chrome/foxbox.svg"
     echo "Chrome theme installed to ${PROFILE_DIR}/chrome/."
 fi
 
 # ── Extensions ───────────────────────────────────────────────────────────────
+
+# Tracks whether any extension was newly staged, so the warm-up below also runs
+# when extensions are added to an existing (kept) profile, not just fresh ones.
+EXTENSIONS_STAGED=false
 
 if [[ -f "${BUNDLE_DIR}/extensions.conf" ]]; then
     mkdir -p "${PROFILE_DIR}/extensions"
@@ -178,6 +193,7 @@ PY
             continue
         fi
         echo "  OK: ${slug}"
+        EXTENSIONS_STAGED=true
     done < "${BUNDLE_DIR}/extensions.conf"
 fi
 
@@ -201,7 +217,7 @@ sys.exit(0 if prof and all(a.get("active") for a in prof) else 1)
 PY
 }
 
-if [[ "$CREATE_PROFILE" == true ]]; then
+if [[ "$CREATE_PROFILE" == true || "$EXTENSIONS_STAGED" == true ]]; then
     echo "Warming up profile (headless) to register and enable extensions..."
     MOZ_DISABLE_CRASH_REPORTER=1 firefox --headless --profile "$PROFILE_DIR" --no-remote about:blank >/dev/null 2>&1 &
     FF_PID=$!
