@@ -97,58 +97,57 @@ url("about:newtab") {
   }
 
   /* ==========================================================================
-   COMPONENT HIDES
-   ========================================================================== */
-/* --- Search box -------------------------------------------------------- */
-.search-inner-wrapper,
-.search-wrapper,
-.search-handoff-button {
-  display: none !important;
-}
-/* --- Top shortcuts / pinned sites ------------------------------------- */
-.sponsored {
-  display: none !important;
-}
+     COMPONENT HIDES
+     ========================================================================== */
+  /* --- Search box -------------------------------------------------------- */
+  .search-inner-wrapper,
+  .search-wrapper,
+  .search-handoff-button {
+    display: none !important;
+  }
 
-/* remove Reddit tile */
-.top-site-outer:has(a[href*="reddit.com"]) {
-  display: none !important;
-}
-/* remove Wikipedia */
-.top-site-outer:has(a[href*="wikipedia"]) {
-  display: none !important;
-}
+  /* --- Top shortcuts / pinned sites ------------------------------------- */
+  .sponsored {
+    display: none !important;
+  }
 
-/* remove Firefox Addons */
-.top-site-outer:has(a[href*="addons"]) {
-  display: none !important;
-}
+  /* remove Reddit tile */
+  .top-site-outer:has(a[href*="reddit.com"]) {
+    display: none !important;
+  }
+  /* remove Wikipedia */
+  .top-site-outer:has(a[href*="wikipedia"]) {
+    display: none !important;
+  }
+  /* remove Firefox Addons */
+  .top-site-outer:has(a[href*="addons"]) {
+    display: none !important;
+  }
+  /* remove YouTube */
+  .top-site-outer:has(a[href*="youtube.com"]) {
+    display: none !important;
+  }
 
-/* remove YouTube */
-.top-site-outer:has(a[href*="youtube.com"]) {
-  display: none !important;
-}
+  /* --- Pocket / recommended stories ------------------------------------- */
+  .discovery-stream,
+  .ds-outer-wrapper,
+  .ds-card-grid,
+  .home-section.ds-section {
+    display: none !important;
+  }
 
-/* --- Pocket / recommended stories ------------------------------------- */
-.discovery-stream,
-.ds-outer-wrapper,
-.ds-card-grid,
-.home-section.ds-section {
-  display: none !important;
-}
+  /* --- Weather widget ---------------------------------------------------- */
+  .weather,
+  .weather-widget,
+  .weather-card,
+  .weatherInfoLink {
+    display: none !important;
+  }
 
-/* --- Weather widget ---------------------------------------------------- */
-.weather,
-.weather-widget,
-.weather-card,
-.weatherInfoLink {
-  display: none !important;
-}
-
-/* --- Customize button -------------------------------------------------- */
-.personalizeButtonWrapper,
-.personalize-button,
-.customize-menu {
-  display: none !important;
-}
+  /* --- Customize button -------------------------------------------------- */
+  .personalizeButtonWrapper,
+  .personalize-button,
+  .customize-menu {
+    display: none !important;
+  }
 }

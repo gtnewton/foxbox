@@ -26,7 +26,7 @@
   --toolbar-field-focus-color:             #ffffff !important;
   
   /* Global focus ring colour */
-  --focus-outline-color:                   rgba(105,60,185, 0.9) !important;
+  --focus-outline-color:                   rgba(105,60,185,0.9) !important;
 }
 
 /* ── Main Header Area ───────────────────────────────────────────────────── */
@@ -85,10 +85,11 @@
 
 /* The row containing the URL bar and navigation buttons. 
  * Strips out the native horizontal divider line. */
+/* --toolbar-bgcolor (set transparent above) already clears the fill; this rule
+ * only strips the native divider line and shadow. */
 #nav-bar {
-  background: transparent !important;
-  border-top: none !important;                  
-  box-shadow: none !important;                  
+  border-top: none !important;
+  box-shadow: none !important;
 }
 
 /* ── Tab UI ─────────────────────────────────────────────────────────────── */
@@ -98,7 +99,7 @@
     border: none !important;
     outline: none !important;
     box-shadow: none !important; 
-    background-color: rgba(105,60,185, 0.1) !important; 
+    background-color: rgba(105,60,185,0.1) !important; 
 }
 
 /* Styling for the currently active tab */
@@ -106,7 +107,7 @@
     border: none !important;
     outline: none !important;
     box-shadow: none !important;
-    background-color: rgba(105,60,185, 0.5) !important; 
+    background-color: rgba(105,60,185,0.5) !important; 
 }
 
 /* Purple focus ring for keyboard tab navigation — keep the affordance visible */
@@ -120,7 +121,7 @@
 /* The physical box wrapping the typed URL text */
 #urlbar-background {
   background-color: transparent !important;
-  border: 1px solid rgba(105,60,185, 1) !important;
+  border: 1px solid rgba(105,60,185,1) !important;
 }
 
 /* Spacer element to prevent the URL bar from overlapping the top-right fox logo */
