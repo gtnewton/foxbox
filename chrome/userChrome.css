@@ -35,7 +35,7 @@
  * Applies the circuit pattern and the top-right fox logo behind the UI. */
 #navigator-toolbox {
   backdrop-filter: blur(16px) !important;
-  border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+  border-bottom: 1px solid rgba(105,60,185,1) !important;
   background-color: rgba(0,0,0,.25) !important;
   background-image:
     url("foxbox.svg"),
